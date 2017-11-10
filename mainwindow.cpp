@@ -1,10 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-// QListWIdget  https://www.youtube.com/watch?v=4nyM1_TGXbE
-
-// QActions: https://www.youtube.com/watch?v=uLF9KWUR9ro
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -32,34 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(onChange(QMediaPlayer::State)));
     QObject::connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(onPositionChange(qint64)));
     QObject::connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(onDurationChange(qint64)));
-
-    //QPalette pal = palette();
-
-    // set black background
-    //pal.setColor(QPalette::Background, Qt::black);
-    //this->setAutoFillBackground(true);
-    //this->setPalette(pal);
-
-
-    /*QStandardItemModel *model = new QStandardItemModel;
-
-    for (int groupnum = 0; groupnum < 3 ; ++groupnum)
-    {
-        //Create the phone groups as QStandardItems
-        QStandardItem *group = new QStandardItem(QString("Group %1").arg(groupnum));
-
-        // Append to each group 5 person as children
-        for (int personnum = 0; personnum < 5 ; ++personnum)
-        {
-            QStandardItem *child = new QStandardItem(QString("Person %1 (group %2)").arg(personnum).arg(groupnum));
-            // the appendRow function appends the child as new row
-            group->appendRow(child);
-        }
-        // append group as new row to the model. model takes the ownership of the item
-        model->appendRow(group);
-    }
-
-    ui->tracksList->setModel(model);*/
 
     ui->tracksList->setColumnCount(2);
     ui->tracksList->setRowCount(playlist->mediaCount());
@@ -156,7 +124,6 @@ void MainWindow::on_duration_windowIconTextChanged(const QString &iconText)
 }
 
 void MainWindow::onPositionChange(qint64 position){
-    //this->duration;
 
     this->ui->position->setText(" " + getStringTime(position));
     this->ui->timeToEnd->setText("-" + getStringTime(player->duration() - position));
@@ -167,11 +134,6 @@ void MainWindow::onDurationChange(qint64 duration){
 
     QTableWidgetItem *item = new QTableWidgetItem(getStringTime(duration));
     ui->tracksList->setItem(playlist->currentIndex(), 1, item);
-
-    if(player->isMetaDataAvailable()){
-        //qDebug() << player->metaData(QMediaMetaData::Duration).toULongLong();
-        //qDebug() << player->metaData(QMediaMetaData::Title).toString();
-    }
 }
 
 void MainWindow::on_play_clicked(bool checked)
